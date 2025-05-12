@@ -46,15 +46,15 @@
 @layer utilities {
   /* logo */
   .monieteller-logo {
-    @apply font-sans font-bold text-2xl tracking-tight inline-block;
+    @apply font-ibm-plex-serif font-bold text-2xl;
   }
 
   .monieteller-logo .monie {
-    @apply text-[#0b1f3a] transition-colors duration-300;
+    @apply text-black-1 transition-colors duration-300;
   }
 
   .monieteller-logo .teller {
-    @apply text-[#1CA1E2] transition-colors duration-300;
+    @apply text-[#1380CA] transition-colors duration-300;
   }
 
   .input-class {

@@ -15,12 +15,10 @@ const Sidebar = () => {
         <Link href="/" className="mb-12 cursor-pointer flex items-center gap-2">
           <Image
             src="/icons/logo.png"
-            width={50}
-            height={50}
+            width={34}
+            height={34}
             alt="MonieTeller logo"
-            // className="w-[40px] "
           />
-          {/* <h1 className="sidebar-logo">MonieTeller</h1> */}
           <div className="monieteller-logo">
             <span className="monie">Monie</span>
             <span className="teller">Teller</span>
