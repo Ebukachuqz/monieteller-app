@@ -40,7 +40,7 @@ const AuthFormComponent = ({ type }: { type: "sign-in" | "sign-up" }) => {
       ) : (
         // Sign In / Sign Up Form
         <>
-          <AuthForm type={type} />
+          <AuthForm type={type} setUser={setUser} />
           <footer className="flex justify-center gap-1">
             <p className="text-14 text-gray-500">
               {type === "sign-in"

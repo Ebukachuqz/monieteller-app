@@ -9,8 +9,14 @@ import { authFormSchema } from "@/lib/utils";
 import CustomFormField from "@/components/shared/CustomFormField";
 import React from "react";
 import { Loader } from "lucide-react";
+import { signUpAction } from "@/actions/user.actions";
 
-export function AuthForm({ type }: { type: "sign-in" | "sign-up" }) {
+interface AuthFormProps {
+  type: "sign-in" | "sign-up";
+  setUser: (user: any) => void;
+}
+
+export function AuthForm({ type, setUser }: AuthFormProps) {
   const [isLoading, setIsLoading] = React.useState(false);
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -21,8 +27,24 @@ export function AuthForm({ type }: { type: "sign-in" | "sign-up" }) {
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    if (type === "sign-in") {
+      setIsLoading(true);
+    }
+
+    if (type === "sign-up") {
+      try {
+        setIsLoading(true);
+        const newUser = await signUpAction(values);
+        setUser(newUser);
+        console.log("New user created:", newUser);
+      } catch (error) {
+        console.error("Error signing up:", error);
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    setIsLoading(false);
   }
 
   return (
