@@ -38,7 +38,7 @@ export function AuthForm({ type, setUser }: AuthFormProps) {
           password: values.password,
         });
         console.log(session);
-        if (!session) router.push("/");
+        if (session) router.push("/");
       }
 
       if (type === "sign-up") {
