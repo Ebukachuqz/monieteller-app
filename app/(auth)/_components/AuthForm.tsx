@@ -9,7 +9,8 @@ import { authFormSchema } from "@/lib/utils";
 import CustomFormField from "@/components/shared/CustomFormField";
 import React from "react";
 import { Loader } from "lucide-react";
-import { signUpAction } from "@/actions/user.actions";
+import { signInAction, signUpAction } from "@/actions/user.actions";
+import { useRouter } from "next/navigation";
 
 interface AuthFormProps {
   type: "sign-in" | "sign-up";
@@ -17,6 +18,7 @@ interface AuthFormProps {
 }
 
 export function AuthForm({ type, setUser }: AuthFormProps) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = React.useState(false);
   const formSchema = authFormSchema(type);
   const form = useForm<z.infer<typeof formSchema>>({
@@ -28,21 +30,26 @@ export function AuthForm({ type, setUser }: AuthFormProps) {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    if (type === "sign-in") {
+    try {
       setIsLoading(true);
-    }
+      if (type === "sign-in") {
+        const session = await signInAction({
+          email: values.email,
+          password: values.password,
+        });
+        console.log(session);
+        if (!session) router.push("/");
+      }
 
-    if (type === "sign-up") {
-      try {
-        setIsLoading(true);
+      if (type === "sign-up") {
         const newUser = await signUpAction(values);
         setUser(newUser);
         console.log("New user created:", newUser);
-      } catch (error) {
-        console.error("Error signing up:", error);
-      } finally {
-        setIsLoading(false);
       }
+    } catch (error) {
+      console.error("Error signing up:", error);
+    } finally {
+      setIsLoading(false);
     }
     setIsLoading(false);
   }
