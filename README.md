@@ -1,6 +1,9 @@
-# MonieTeller 💵💬
+<h1 align="center">MonieTeller 💵💬</h1>
 
-![MonieTeller Banner](/public/images/monieteller_header.png)
+<p align="center">
+  <img src="/public/images/monieteller_header.png" alt="MonieTeller Banner" />
+</p>
+
 
 **MonieTeller** is a fintech web application designed to streamline money transactions and provide real-time financial updates for users. It features modern design principles and robust performance, backed by the powerful Appwrite backend and monitored via Sentry. Powered by Mono!
 
