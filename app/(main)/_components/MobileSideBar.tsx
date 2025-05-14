@@ -14,8 +14,9 @@ import Image from "next/image";
 import Link from "next/link";
 import { sidebarLinks } from "@/constants";
 import { cn } from "@/lib/utils";
+import SidebarFooter from "./SidebarFooter";
 
-const MobileSideBar = () => {
+const MobileSideBar = ({ user }: MobileSidebarProps) => {
   const pathname = usePathname();
 
   return (
@@ -85,6 +86,7 @@ const MobileSideBar = () => {
                 })}
               </nav>
             </SheetClose>
+            <SidebarFooter user={user} type="mobile" />
           </div>
         </SheetContent>
       </Sheet>

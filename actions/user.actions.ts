@@ -1,5 +1,9 @@
 "use server";
-import { createAdminClient, getLoggedInUser } from "@/lib/server/appwrite";
+import {
+  createAdminClient,
+  createSessionClient,
+  getLoggedInUser,
+} from "@/lib/server/appwrite";
 import { parseStringify } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -52,7 +56,17 @@ export async function signInAction({ email, password }: signInProps) {
 export async function getLoggedInUserAction() {
   const user = await getLoggedInUser();
 
-  if (!user) redirect("/signup");
+  if (!user) redirect("/sign-in");
 
   return user;
+}
+
+export async function signOutAction() {
+  try {
+    const { account } = await createSessionClient();
+    cookies().delete("auth-session");
+    return await account.deleteSession("current");
+  } catch (error) {
+    console.error("Error signing out:", error);
+  }
 }

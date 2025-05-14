@@ -155,7 +155,7 @@ declare interface HeaderBoxProps {
   user?: string;
 }
 
-declare interface MobileNavProps {
+declare interface MobileSidebarProps {
   user: User;
 }
 
@@ -208,8 +208,9 @@ declare interface TotlaBalanceBoxProps {
   totalCurrentBalance: number;
 }
 
-declare interface FooterProps {
+declare interface SideBarFooterProps {
   user: User;
+  type?: "desktop" | "mobile";
 }
 
 declare interface RightSidebarProps {
