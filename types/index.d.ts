@@ -13,6 +13,7 @@ declare type SignUpParams = {
   address1?: string;
   city?: string;
   state?: string;
+  country?: string;
   postalCode?: string;
   dateOfBirth?: string;
   ssn?: string;
@@ -172,7 +173,7 @@ declare interface PaginationProps {
   totalPages: number;
 }
 
-declare interface PlaidLinkProps {
+declare interface MonoLinkProps {
   user: User;
   variant?: "primary" | "ghost";
   dwollaCustomerId?: string;
@@ -326,4 +327,38 @@ declare interface getBankProps {
 
 declare interface getBankByAccountIdProps {
   accountId: string;
+}
+
+declare interface MonoAccountData {
+  accountId: string;
+  bankName: string;
+  accountName: string;
+  accountNumber: string;
+  currency: string;
+  type: string;
+  dataStatus: string;
+}
+
+declare interface MonoAuthResponse {
+  id: string;
+  [key: string]: any;
+}
+
+declare interface MonoAccountResponse {
+  account: {
+    institution?: {
+      name: string;
+      [key: string]: any;
+    };
+    name: string;
+    number: string;
+    currency: string;
+    type: string;
+    [key: string]: any;
+  };
+  meta: {
+    data_status: string;
+    [key: string]: any;
+  };
+  [key: string]: any;
 }

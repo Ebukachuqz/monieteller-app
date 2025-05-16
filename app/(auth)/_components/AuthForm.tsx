@@ -9,8 +9,9 @@ import { authFormSchema } from "@/lib/utils";
 import CustomFormField from "@/components/shared/CustomFormField";
 import React from "react";
 import { Loader } from "lucide-react";
-import { signInAction, signUpAction } from "@/actions/user.actions";
+import { signInAction } from "@/actions/user.actions";
 import { useRouter } from "next/navigation";
+import { signUpAction } from "@/actions";
 
 interface AuthFormProps {
   type: "sign-in" | "sign-up";
@@ -44,7 +45,6 @@ export function AuthForm({ type, setUser }: AuthFormProps) {
       if (type === "sign-up") {
         const newUser = await signUpAction(values);
         setUser(newUser);
-        console.log("New user created:", newUser);
       }
     } catch (error) {
       console.error("Error signing up:", error);
@@ -91,6 +91,13 @@ export function AuthForm({ type, setUser }: AuthFormProps) {
                 type="text"
               />
             </div>
+            <CustomFormField
+              control={form.control}
+              name="country"
+              label="Country"
+              placeholder="Enter your Country"
+              type="text"
+            />
             <div className="flex gap-4">
               <CustomFormField
                 control={form.control}
