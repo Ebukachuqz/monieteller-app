@@ -1,6 +1,6 @@
 "use server";
 import { cookies } from "next/headers";
-import { Account, Client, Databases, Users, Models } from "node-appwrite";
+import { Account, Client, Databases, Users, Models, ID } from "node-appwrite";
 
 export async function createAdminClient() {
   const client = new Client()
@@ -51,99 +51,44 @@ export async function getLoggedInUser() {
 /**
  * Generic function to create a document in any collection
  */
-export async function createDocument<T extends object>(
+export async function addDocumentToAppwriteDb<T extends object>(
   databaseId: string,
   collectionId: string,
-  documentId: string,
   data: T
 ): Promise<T & Models.Document> {
   const { database } = await createAdminClient();
-
-  const document = await database.createDocument(
-    databaseId,
-    collectionId,
-    documentId,
-    data
-  );
-
-  return document as unknown as T & Models.Document;
-}
-
-/**
- * Generic function to get documents from any collection filtered by a user ID
- */
-// export async function getUserDocuments<T>(
-//   databaseId: string,
-//   collectionId: string,
-//   userId: string,
-//   queries: string[] = []
-// ): Promise<T[]> {
-//   const { database } = await createAdminClient();
-
-//   const response = await database.listDocuments(databaseId, collectionId, [
-//     Query.equal("userId", userId),
-//     ...queries.map((query) => Query.parse(query)),
-//   ]);
-
-//   return response.documents as unknown as T[];
-// }
-
-/**
- * Generic function to get a single document by ID
- */
-export async function getDocument<T>(
-  databaseId: string,
-  collectionId: string,
-  documentId: string
-): Promise<T & Models.Document> {
-  const { database } = await createAdminClient();
-
-  const document = await database.getDocument(
-    databaseId,
-    collectionId,
-    documentId
-  );
-
-  return document as unknown as T & Models.Document;
-}
-
-/**
- * Generic function to update a document
- */
-export async function updateDocument<T extends object>(
-  databaseId: string,
-  collectionId: string,
-  documentId: string,
-  data: Partial<T>
-): Promise<T & Models.Document> {
-  const { database } = await createAdminClient();
-
-  const document = await database.updateDocument(
-    databaseId,
-    collectionId,
-    documentId,
-    data
-  );
-
-  return document as unknown as T & Models.Document;
-}
-
-/**
- * Generic function to delete a document
- */
-export async function deleteDocument(
-  databaseId: string,
-  collectionId: string,
-  documentId: string
-): Promise<boolean> {
   try {
-    const { database } = await createAdminClient();
+    const document = await database.createDocument(
+      databaseId,
+      collectionId,
+      ID.unique(),
+      { ...data }
+    );
+    return document as unknown as T & Models.Document;
+  } catch (error: any) {
+    console.error("Error creating document:", error);
+    throw new Error(error?.message || "Failed to create document");
+  }
+}
 
-    await database.deleteDocument(databaseId, collectionId, documentId);
-
-    return true;
-  } catch (error) {
-    console.error("Failed to delete document:", error);
-    return false;
+/**
+ * Generic function to fetch documents
+ */
+export async function getDocumentsFromAppwriteDb<T = Models.Document>(
+  databaseId: string,
+  collectionId: string,
+  queries: string[] = []
+): Promise<T[]> {
+  const { database } = await createAdminClient();
+  try {
+    const documents = await database.listDocuments(
+      databaseId,
+      collectionId,
+      queries
+    );
+    return documents as unknown as T[];
+  } catch (err: any) {
+    console.error(`Appwrite getDocuments error:`, err);
+    throw new Error(err?.message || "Failed to fetch documents");
   }
 }

@@ -1,4 +1,8 @@
-import { addDocumentToAppwriteDb } from "@/lib/services";
+import {
+  addDocumentToAppwriteDb,
+  getDocumentsFromAppwriteDb,
+} from "@/lib/server/appwrite";
+import { Query } from "node-appwrite";
 
 const {
   APPWRITE_DATABASE_ID: DATABASE_ID,
@@ -13,4 +17,13 @@ export const addUserToDb = async (userDetails) => {
   );
 
   return document;
+};
+
+export const getUserFromDb = async (userId: string) => {
+  const user = await getDocumentsFromAppwriteDb(
+    DATABASE_ID!,
+    USERS_COLLECTION_ID!,
+    [Query.equal("userId", userId)]
+  );
+  return user;
 };

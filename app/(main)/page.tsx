@@ -2,24 +2,20 @@ import HeaderBox from "@/components/shared/HeaderBox";
 import React from "react";
 import TotalBalanceCard from "./_components/TotalBalanceCard";
 import DashboardRightSidebar from "./_components/DashboardRightSidebar";
+import { getUserBanksDataAction, getUserDataAction } from "@/actions";
 
-const Dashboard = () => {
-  const loggedIn = {
-    firstName: "Ebuka",
-    lastName: "Chuqz",
-  };
-  const banks = [
-    {
-      $id: "1",
-      name: "Zenith Bank",
-      balance: 1023400,
-    },
-    {
-      $id: "2",
-      name: "First Bank",
-      balance: 105500,
-    },
-  ];
+const Dashboard = async () => {
+  const userDocument: any = await getUserDataAction();
+  const userData = userDocument.documents[0];
+
+  const banksDocument: any = await getUserBanksDataAction();
+  const banks: any[] = banksDocument.documents;
+
+  const totalBalance = banks.reduce((total, bank) => {
+    const bankBalance = parseFloat(bank.balance || 0);
+    return total + bankBalance;
+  }, 0);
+
   return (
     <section className="home">
       <div className="home-content">
@@ -27,14 +23,18 @@ const Dashboard = () => {
           <HeaderBox
             type="greeting"
             title="Welcome"
-            user={loggedIn?.firstName || "Guest"}
+            user={userData?.firstName || "Guest"}
             subtext="Monitor your money with ease and confidence."
           />
 
-          <TotalBalanceCard totalBanks={1} totalCurrentBalance={75534.5} />
+          <TotalBalanceCard
+            totalBanks={banks.length}
+            totalCurrentBalance={totalBalance}
+            accounts={banks}
+          />
         </header>
       </div>
-      <DashboardRightSidebar banks={banks} user={loggedIn} transactions={[]} />
+      <DashboardRightSidebar banks={banks} user={userData} transactions={[]} />
     </section>
   );
 };

@@ -4,6 +4,7 @@ import {
   createSessionClient,
   getLoggedInUser,
 } from "@/lib/server/appwrite";
+import { getAuthenticatedUser, getUserFromDb } from "@/lib/services";
 import { parseStringify } from "@/lib/utils";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -42,4 +43,14 @@ export async function signOutAction() {
   } catch (error) {
     console.error("Error signing out:", error);
   }
+}
+
+export async function getUserDataAction() {
+  const user = await getAuthenticatedUser();
+  // if (!user) redirect("/sign-in");
+
+  const userData = getUserFromDb(user.$id);
+  // console.log("User Data:", userData);
+
+  return userData;
 }

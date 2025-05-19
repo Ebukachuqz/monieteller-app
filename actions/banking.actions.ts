@@ -5,6 +5,7 @@ import {
   exchangeToken,
   getAuthenticatedUser,
   getBankAccountInfo,
+  getUserBanksData,
 } from "@/lib/services";
 
 export async function exchangeTokenAction(code: string) {
@@ -40,5 +41,19 @@ export async function exchangeTokenAction(code: string) {
   } catch (error: any) {
     const errorMessage = error?.message || "Failed to link Mono account";
     throw new Error("exchangeTokenAction failed:", errorMessage);
+  }
+}
+
+export async function getUserBanksDataAction() {
+  try {
+    const user = await getAuthenticatedUser();
+
+    const document = await getUserBanksData(user.$id);
+    console.log("Bank Account Data:", document);
+
+    return document;
+  } catch (error: any) {
+    const errorMessage = error?.message || "Failed to fetch bank account data";
+    throw new Error("getUserBanksData failed:", errorMessage);
   }
 }
