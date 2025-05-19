@@ -329,14 +329,22 @@ declare interface getBankByAccountIdProps {
   accountId: string;
 }
 
-declare interface MonoAccountData {
+declare interface MonoBankAccountResponseData {
   accountId: string;
-  bankName: string;
+  institutionBankCode: string;
+  institutionName: string;
   accountName: string;
   accountNumber: string;
   currency: string;
-  type: string;
+  accountType: string;
   dataStatus: string;
+  bvn: string;
+  institutionType: string;
+  balance: number;
+}
+
+declare interface MonoBankAccountData extends MonoBankAccountResponseData {
+  userId: string;
 }
 
 declare interface MonoAuthResponse {

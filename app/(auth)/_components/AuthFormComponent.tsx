@@ -3,6 +3,7 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import AuthForm from "./AuthForm";
+import MonoLink from "./MonoLink";
 
 const AuthFormComponent = ({ type }: { type: "sign-in" | "sign-up" }) => {
   const [user, setUser] = React.useState(null);
@@ -36,9 +37,10 @@ const AuthFormComponent = ({ type }: { type: "sign-in" | "sign-up" }) => {
         </div>
       </header>
       {user ? (
-        <div className="flex flex-col gap-4">{/* Mono Link Form */}</div>
+        <div className="flex flex-col gap-4">
+          <MonoLink user={user} />
+        </div>
       ) : (
-        // Sign In / Sign Up Form
         <>
           <AuthForm type={type} setUser={setUser} />
           <footer className="flex justify-center gap-1">
