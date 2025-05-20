@@ -18,7 +18,7 @@ const BanksBalanceDoughnutChart = ({ accounts }: DoughnutChartProps) => {
     labels: accounts.map((acc) => acc.institutionName),
     datasets: [
       {
-        label: "Bank Balances",
+        label: "Balance",
         data: accounts.map((acc) => acc.balance),
         backgroundColor: [
           "#0747b6",
