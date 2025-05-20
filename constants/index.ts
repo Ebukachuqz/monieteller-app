@@ -76,6 +76,19 @@ export const topCategoryStyles = {
     },
     icon: "/icons/coins.svg",
   },
+  "Bank Charges": {
+    bg: "bg-red-25",
+    circleBg: "bg-red-100",
+    text: {
+      main: "text-red-900",
+      count: "text-red-700",
+    },
+    progress: {
+      bg: "bg-red-100",
+      indicator: "bg-red-700",
+    },
+    icon: "/icons/credit-card.svg", // You can change this to any icon for bank charges
+  },
   default: {
     bg: "bg-pink-25",
     circleBg: "bg-pink-100",
@@ -88,6 +101,19 @@ export const topCategoryStyles = {
       indicator: "bg-pink-700",
     },
     icon: "/icons/shopping-bag.svg",
+  },
+  unknown: {
+    bg: "bg-gray-200", // Light gray background for unknown
+    circleBg: "bg-gray-300", // Slightly darker gray circle
+    text: {
+      main: "text-gray-800", // Dark gray text for the category name
+      count: "text-gray-600", // Lighter gray text for count
+    },
+    progress: {
+      bg: "bg-gray-300", // Light gray background for progress
+      indicator: "bg-gray-600", // Darker gray for progress indicator
+    },
+    icon: "/icons/question-mark.svg", // Question mark for unknown categories
   },
 };
 
@@ -128,10 +154,23 @@ export const transactionCategoryStyles = {
     textColor: "text-[#027A48]",
     chipBackgroundColor: "bg-[#ECFDF3]",
   },
+  "Bank Charges": {
+    borderColor: "border-red-600",
+    backgroundColor: "bg-red-500",
+    textColor: "text-red-700",
+    chipBackgroundColor: "bg-inherit",
+  },
   default: {
     borderColor: "",
     backgroundColor: "bg-blue-500",
     textColor: "text-blue-700",
     chipBackgroundColor: "bg-inherit",
   },
+  unknown: {
+    borderColor: "border-gray-400", // Light gray border for unknown
+    backgroundColor: "bg-gray-300", // Gray background for unknown category
+    textColor: "text-gray-700", // Dark gray text for unknown category
+    chipBackgroundColor: "bg-inherit", // Transparent chip background
+  },
 };
+

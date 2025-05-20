@@ -2,16 +2,27 @@ import HeaderBox from "@/components/shared/HeaderBox";
 import React from "react";
 import TotalBalanceCard from "./_components/TotalBalanceCard";
 import DashboardRightSidebar from "./_components/DashboardRightSidebar";
-import { getUserBanksDataAction, getUserDataAction } from "@/actions";
+import {
+  getBankAccountTransactionsAction,
+  getUserBanksDataAction,
+  getUserDataAction,
+} from "@/actions";
+import RecentTransactions from "./_components/RecentTransactions";
 
 const Dashboard = async () => {
   const userDocument: any = await getUserDataAction();
   const userData = userDocument.documents[0];
 
   const banksDocument: any = await getUserBanksDataAction();
-  const banks: any[] = banksDocument.documents;
+  const bankAccounts: any[] = banksDocument.documents;
+  // console.log("Bank Accounts:", bankAccounts[0]);
 
-  const totalBalance = banks.reduce((total, bank) => {
+  const transactions = await getBankAccountTransactionsAction(
+    bankAccounts[0].accountId
+  );
+  // console.log("Transactions:", transactions);
+
+  const totalBalance = bankAccounts.reduce((total, bank) => {
     const bankBalance = parseFloat(bank.balance || 0);
     return total + bankBalance;
   }, 0);
@@ -28,13 +39,22 @@ const Dashboard = async () => {
           />
 
           <TotalBalanceCard
-            totalBanks={banks.length}
+            totalBanks={bankAccounts.length}
             totalCurrentBalance={totalBalance}
-            accounts={banks}
+            accounts={bankAccounts}
           />
         </header>
+
+        <RecentTransactions
+          bankAccounts={bankAccounts}
+          transactions={transactions.data || []}
+        />
       </div>
-      <DashboardRightSidebar banks={banks} user={userData} transactions={[]} />
+      <DashboardRightSidebar
+        banks={bankAccounts}
+        user={userData}
+        transactions={[]}
+      />
     </section>
   );
 };

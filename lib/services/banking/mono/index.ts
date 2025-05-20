@@ -86,3 +86,29 @@ export async function getBankAccountInfo(
     };
   }
 }
+
+export async function getBankAccountTransactions(accountId: string) {
+  try {
+    const response = await axios.get(
+      `https://api.withmono.com/v2/accounts/${accountId}/transactions`,
+      {
+        headers: {
+          accept: "application/json",
+          "mono-sec-key": process.env.MONO_SECRET_KEY!,
+        },
+      }
+    );
+
+    const { status, data, message } = response.data;
+
+    if (status !== "successful") {
+      throw new Error(message || "Failed to fetch transactions");
+    }
+
+    return data;
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message || error?.message || "Something went wrong"
+    );
+  }
+}

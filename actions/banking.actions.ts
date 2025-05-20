@@ -5,6 +5,7 @@ import {
   exchangeToken,
   getAuthenticatedUser,
   getBankAccountInfo,
+  getBankAccountTransactions,
   getUserBanksData,
 } from "@/lib/services";
 
@@ -55,5 +56,18 @@ export async function getUserBanksDataAction() {
   } catch (error: any) {
     const errorMessage = error?.message || "Failed to fetch bank account data";
     throw new Error("getUserBanksData failed:", errorMessage);
+  }
+}
+
+export async function getBankAccountTransactionsAction(accountId: string) {
+  try {
+    const transactions = await getBankAccountTransactions(accountId);
+    console.log("Bank Account Transactions:", transactions);
+    return { success: true, data: transactions };
+  } catch (error: any) {
+    return {
+      success: false,
+      error: error.message || "Failed to fetch transactions",
+    };
   }
 }
