@@ -62,7 +62,7 @@ export async function getUserBanksDataAction() {
 export async function getBankAccountTransactionsAction(accountId: string) {
   try {
     const transactions = await getBankAccountTransactions(accountId);
-    console.log("Bank Account Transactions:", transactions);
+    // console.log("Bank Account Transactions:", transactions);
     return { success: true, data: transactions };
   } catch (error: any) {
     return {
